@@ -54,8 +54,18 @@ const getProject = async (projectId) => {
     return data;
 }
 
+const createProject = (name) => {
+    api.post(`/projects`, {
+       project: {
+           name: name,
+           wid: process.env.TOGGL_TARGET_WORKSPACE_ID
+       }
+    });
+}
+
 module.exports = {
     listUserProjects: listUserProjects,
     listWorkspaces: listWorkspaces,
-    getProject: getProject
+    getProject: getProject,
+    createProject: createProject
 };
