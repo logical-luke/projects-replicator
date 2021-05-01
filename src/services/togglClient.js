@@ -54,8 +54,8 @@ const getProject = async (projectId) => {
     return data;
 }
 
-const createProject = (name) => {
-    api.post(`/projects`, {
+const createProject = async (name) => {
+    return api.post(`/projects`, {
        project: {
            name: name,
            wid: process.env.TOGGL_TARGET_WORKSPACE_ID
