@@ -18,11 +18,38 @@ api.interceptors.request.use(
 const listTeams = async () => {
     let data;
     await api.get(`/team`).then((response) => {
-        data = response.data;
+        if (response.data.teams !== undefined) {
+            data = response.data.teams;
+        }
     });
     return data;
 }
 
+const listSpaces = async () => {
+    const teams = await listTeams();
+    let data = [];
+    if (teams) {
+        let spacesRequests = [];
+        teams.forEach((team) => {
+            spacesRequests.push(
+                api.get(
+                    `/team/${team.id}/space?archived=false`).then((response) => {
+                    return response.data
+                })
+            );
+        });
+        await Promise.all(spacesRequests).then((responses) => {
+            responses.forEach((spaces) => {
+                if (spaces.spaces !== undefined) {
+                    data = data.concat(spaces.spaces);
+                }
+            })
+        })
+        return data;
+    }
+}
+
 module.exports = {
-    listTeams: listTeams
+    listTeams: listTeams,
+    listSpaces: listSpaces
 };
