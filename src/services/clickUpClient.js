@@ -49,7 +49,37 @@ const listSpaces = async () => {
     }
 }
 
+const listFolders = async (spaces) => {
+    if (!spaces) {
+        spaces = await listSpaces();
+        spaces = spaces.map((space) => {
+            return space.id;
+        })
+    }
+    let data = [];
+    if (spaces) {
+        let folderRequests = [];
+        spaces.forEach((space) => {
+            folderRequests.push(
+                api.get(
+                    `/space/${space}/folder?archived=false`).then((response) => {
+                    return response.data
+                })
+            );
+        });
+        await Promise.all(folderRequests).then((responses) => {
+            responses.forEach((folders) => {
+                if (folders.folders !== undefined) {
+                    data = data.concat(folders.folders);
+                }
+            })
+        })
+        return data;
+    }
+}
+
 module.exports = {
     listTeams: listTeams,
-    listSpaces: listSpaces
+    listSpaces: listSpaces,
+    listFolders: listFolders
 };
