@@ -29,16 +29,16 @@ const listSpaces = async () => {
     const teams = await listTeams();
     let data = [];
     if (teams) {
-        let spacesRequests = [];
+        let teamsRequests = [];
         teams.forEach((team) => {
-            spacesRequests.push(
+            teamsRequests.push(
                 api.get(
                     `/team/${team.id}/space?archived=false`).then((response) => {
                     return response.data
                 })
             );
         });
-        await Promise.all(spacesRequests).then((responses) => {
+        await Promise.all(teamsRequests).then((responses) => {
             responses.forEach((spaces) => {
                 if (spaces.spaces !== undefined) {
                     data = data.concat(spaces.spaces);
