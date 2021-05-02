@@ -55,9 +55,20 @@ const listLists = async (folderId) => {
     return data;
 }
 
+const listFolderlessLists = async (spaceId) => {
+    let data;
+    await api.get(`/space/${spaceId}/list?archived=false`).then((response) => {
+        if (response.data.lists !== undefined) {
+            data = response.data.lists;
+        }
+    });
+    return data;
+}
+
 module.exports = {
     listTeams: listTeams,
     listSpaces: listSpaces,
     listFolders: listFolders,
-    listLists: listLists
+    listLists: listLists,
+    listFolderlessLists: listFolderlessLists
 };
