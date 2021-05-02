@@ -16,25 +16,14 @@ api.interceptors.request.use(
     }
 );
 
-const listUserProjects = async () => {
-    const workspaces = await listWorkspaces();
-    let data = [];
-    if (workspaces) {
-        let workspacesRequests = [];
-        workspaces.forEach((workspace) => {
-            workspacesRequests.push(
-                api.get(
-                    `/workspaces/${workspace.id}/projects`).then((response) => {
-                    return response.data
-                })
-            );
-        })
-        await Promise.all(workspacesRequests).then((responses) => {
-            responses.forEach((projects) => {
-                data = data.concat(projects);
-            })
-        })
-    }
+const listProjects = async (workspaceId) => {
+    let data;
+    api.get(
+        `/workspaces/${workspaceId}/projects`).then((response) => {
+            if (response.data.projects !== undefined) {
+                data = data.concat(response.data.projects);
+            }
+    })
     return data;
 }
 
@@ -64,7 +53,7 @@ const createProject = async (name) => {
 }
 
 module.exports = {
-    listUserProjects: listUserProjects,
+    listUserProjects: listProjects,
     listWorkspaces: listWorkspaces,
     getProject: getProject,
     createProject: createProject
