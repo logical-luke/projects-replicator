@@ -25,57 +25,24 @@ const listTeams = async () => {
     return data;
 }
 
-const listSpaces = async () => {
-    const teams = await listTeams();
-    let data = [];
-    if (teams) {
-        let teamsRequests = [];
-        teams.forEach((team) => {
-            teamsRequests.push(
-                api.get(
-                    `/team/${team.id}/space?archived=false`).then((response) => {
-                    return response.data
-                })
-            );
-        });
-        await Promise.all(teamsRequests).then((responses) => {
-            responses.forEach((spaces) => {
-                if (spaces.spaces !== undefined) {
-                    data = data.concat(spaces.spaces);
-                }
-            })
-        })
-        return data;
-    }
+const listSpaces = async (teamId) => {
+    let data;
+    await api.get(`/team/${teamId}/space?archived=false`).then((response) => {
+        if (response.data.spaces !== undefined) {
+            data = response.data.spaces;
+        }
+    });
+    return data;
 }
 
-const listFolders = async (spaces) => {
-    if (!spaces) {
-        spaces = await listSpaces();
-        spaces = spaces.map((space) => {
-            return space.id;
-        })
-    }
-    let data = [];
-    if (spaces) {
-        let folderRequests = [];
-        spaces.forEach((space) => {
-            folderRequests.push(
-                api.get(
-                    `/space/${space}/folder?archived=false`).then((response) => {
-                    return response.data
-                })
-            );
-        });
-        await Promise.all(folderRequests).then((responses) => {
-            responses.forEach((folders) => {
-                if (folders.folders !== undefined) {
-                    data = data.concat(folders.folders);
-                }
-            })
-        })
-        return data;
-    }
+const listFolders = async (spaceId) => {
+    let data;
+    await api.get(`/space/${spaceId}/folder?archived=false`).then((response) => {
+        if (response.data.folders !== undefined) {
+            data = response.data.folders;
+        }
+    });
+    return data;
 }
 
 module.exports = {
