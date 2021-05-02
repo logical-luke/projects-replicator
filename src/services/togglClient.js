@@ -35,6 +35,14 @@ const listWorkspaces = async () => {
     return data;
 }
 
+const listTasks = async (projectId) => {
+    let data;
+    await api.get(`/projects/${projectId}/tasks`).then((response) => {
+        data = response.data;
+    });
+    return data;
+}
+
 const getProject = async (projectId) => {
     let data;
     await api.get(`/projects/${projectId}`).then((response) => {
@@ -64,6 +72,7 @@ const createTask = async (name, projectId) => {
 module.exports = {
     listUserProjects: listProjects,
     listWorkspaces: listWorkspaces,
+    listTasks: listTasks,
     getProject: getProject,
     createProject: createProject,
     createTask: createTask
