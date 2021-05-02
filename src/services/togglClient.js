@@ -52,9 +52,19 @@ const createProject = async (name) => {
     });
 }
 
+const createTask = async (name, projectId) => {
+    return api.post(`/tasks`, {
+        project: {
+            name: name,
+            pid: projectId
+        }
+    });
+}
+
 module.exports = {
     listUserProjects: listProjects,
     listWorkspaces: listWorkspaces,
     getProject: getProject,
-    createProject: createProject
+    createProject: createProject,
+    createTask: createTask
 };
