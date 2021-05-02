@@ -4,6 +4,7 @@
     "main": "src/app.js",
     "dependencies": {
         "axios": "^0.21.1",
+        "clockify-npm": "^0.0.6",
         "dotenv": "^8.2.0",
         "express": "^4.17.1"
     }
