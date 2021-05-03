@@ -65,6 +65,23 @@ const listFolderlessLists = async (spaceId) => {
     return data;
 }
 
+const listAllLists = async () => {
+    let data = [];
+    const teams = await listTeams();
+    for (const team of teams) {
+        const spaces = await listSpaces(team.id);
+        for (const space of spaces) {
+            data.push(await listFolderlessLists(space.id));
+            const folders = await listFolders(space.id);
+            for (const folder of folders) {
+                data.push(await listLists(folder.id));
+            }
+            data.push(await listFolderlessLists(space.id));
+        }
+    }
+    return data;
+}
+
 const listTasks = async (listId) => {
     let data;
     await api.get(`/list/${listId}/task?archived=false`).then((response) => {
@@ -82,5 +99,6 @@ module.exports = {
     listFolders: listFolders,
     listLists: listLists,
     listFolderlessLists: listFolderlessLists,
-    listTasks: listTasks
+    listTasks: listTasks,
+    listAllLists: listAllLists
 };
