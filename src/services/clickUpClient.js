@@ -16,7 +16,7 @@ api.interceptors.request.use(
 );
 
 const listTeams = async () => {
-    let data;
+    let data = [];
     await api.get(`/team`).then((response) => {
         if (response.data.teams !== undefined) {
             data = response.data.teams;
@@ -26,7 +26,7 @@ const listTeams = async () => {
 }
 
 const listSpaces = async (teamId) => {
-    let data;
+    let data = [];
     await api.get(`/team/${teamId}/space?archived=false`).then((response) => {
         if (response.data.spaces !== undefined) {
             data = response.data.spaces;
@@ -36,7 +36,7 @@ const listSpaces = async (teamId) => {
 }
 
 const listFolders = async (spaceId) => {
-    let data;
+    let data = [];
     await api.get(`/space/${spaceId}/folder?archived=false`).then((response) => {
         if (response.data.folders !== undefined) {
             data = response.data.folders;
@@ -46,7 +46,7 @@ const listFolders = async (spaceId) => {
 }
 
 const listLists = async (folderId) => {
-    let data;
+    let data = [];
     await api.get(`/folder/${folderId}/list?archived=false`).then((response) => {
         if (response.data.lists !== undefined) {
             data = response.data.lists;
@@ -56,7 +56,7 @@ const listLists = async (folderId) => {
 }
 
 const listFolderlessLists = async (spaceId) => {
-    let data;
+    let data = [];
     await api.get(`/space/${spaceId}/list?archived=false`).then((response) => {
         if (response.data.lists !== undefined) {
             data = response.data.lists;
@@ -68,6 +68,7 @@ const listFolderlessLists = async (spaceId) => {
 const listTasks = async (listId) => {
     let data;
     await api.get(`/list/${listId}/task?archived=false`).then((response) => {
+        console.log(response.data.tasks);
         if (response.data.tasks !== undefined) {
             data = response.data.tasks;
         }
