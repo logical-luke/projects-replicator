@@ -67,9 +67,8 @@ const listFolderlessLists = async (spaceId) => {
 
 
 const listTasks = async (listId) => {
-    let data;
+    let data = [];
     await api.get(`/list/${listId}/task?archived=false`).then((response) => {
-        console.log(response.data.tasks);
         if (response.data.tasks !== undefined) {
             data = response.data.tasks;
         }
