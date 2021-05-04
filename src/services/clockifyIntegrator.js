@@ -6,10 +6,16 @@ const listAllClickUpTasks = async () => {
     for (const team of teams) {
         const spaces = await clickUp.listSpaces(team.id);
         for (const space of spaces) {
-            tasks.push(await clickUp.listFolderlessLists(space.id));
+            const folderlessLists = await clickUp.listFolderlessLists(space.id);
+            for (const folderlessList of folderlessLists) {
+                tasks = tasks.concat(await clickUp.listTasks(folderlessList.id));
+            }
             const folders = await clickUp.listFolders(space.id);
             for (const folder of folders) {
-                tasks.push(await clickUp.listLists(folder.id));
+                const lists = await clickUp.listLists(folder.id);
+                for (const list of lists) {
+                    tasks = tasks.concat(await clickUp.listTasks(list.id));
+                }
             }
         }
     }
