@@ -1,2 +1,6 @@
-# ClickUp Integrator
-Live replication of tasks and projects from and to ClickUp
+# Task Migrator
+Replication of tasks and projects between task cloud apps
+
+Currently supported apps:
+* ClickUp
+* Todoist
