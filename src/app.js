@@ -40,7 +40,7 @@ const workspaceId = parseInt(process.env.TOGGL_WORKSPACE_ID);
             });
         console.log(`Fetched ${projects.length} from Todoist`);
         await toggl.getWorkspaceProjects(workspaceId, {}, async (err, response) => {
-            console.log(`Fetched ${projects.response} from Toggl`);
+            console.log(`Fetched ${response.length} from Toggl`);
             if (response) {
                 const togglProjects = response.map((project) => {
                     return project.name;
