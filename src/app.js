@@ -5,6 +5,8 @@ const toggl = new togglClient({apiToken: process.env.TOGGL_API_KEY});
 const todoist = require('todoist').v8(process.env.TODOIST_API_KEY)
 const sleep = require('sleep');
 
+const workspaceId = parseInt(process.env.TOGGL_WORKSPACE_ID);
+
 (async () => {
     while (true) {
         await todoist.sync()
@@ -15,7 +17,7 @@ const sleep = require('sleep');
                 for (let i = 0; i < projects.length; i++) {
                     await toggl.createProject({
                         "name": projects[i],
-                        "wid": process.env.TOGGL_WORKSPACE_ID,
+                        "wid": workspaceId,
                         "is_private": true
                     }, (err) => {
                         console.log(`Error occurred. Waiting 3 seconds`);
@@ -37,7 +39,7 @@ const sleep = require('sleep');
                 return projectName !== 'Inbox';
             });
         console.log(`Fetched ${projects.length} from Todoist`);
-        await toggl.getWorkspaceProjects(process.env.TOGGL_WORKSPACE_ID, {}, async (err, response) => {
+        await toggl.getWorkspaceProjects(workspaceId, {}, async (err, response) => {
             console.log(`Fetched ${projects.response} from Toggl`);
             if (response) {
                 const togglProjects = response.map((project) => {
