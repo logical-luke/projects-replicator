@@ -1,4 +1,6 @@
 # Projects Replicator
+[![Maintainability](https://api.codeclimate.com/v1/badges/6970b738177d3ec1e3cb/maintainability)](https://codeclimate.com/github/logical-luke/projects-replicator/maintainability)
+
 Replication of tasks and projects between task cloud apps
 
 Supported apps:
